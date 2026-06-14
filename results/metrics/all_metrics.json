@@ -1,0 +1,58 @@
+{
+  "stage1": {
+    "model": "YOLOv11 (fine-tuned on DentexChallenge 2023)",
+    "total_images": 50,
+    "total_detections": 466,
+    "avg_per_image": 9.32,
+    "std_per_image": 3.2,
+    "min_per_image": 3,
+    "max_per_image": 20,
+    "classes_detected": 3,
+    "top10_classes": {
+      "Caries": 387,
+      "Impacted tooth": 59,
+      "Periapical lesion": 20
+    }
+  },
+  "stage2": {
+    "metric": "Spontaneous Recall Rate (unbiased)",
+    "images_with_findings": 27,
+    "avg_spontaneous_recall": 0.9815,
+    "std_spontaneous_recall": 0.0944,
+    "high_recall_pct": 96.3
+  },
+  "stage3": {
+    "reports_evaluated": 50,
+    "bleu4_mean": 0.0011,
+    "bleu4_std": 0.0012,
+    "rouge_l_mean": 0.0319,
+    "rouge_l_std": 0.0174,
+    "bertscore_f1_mean": 0.7803,
+    "bertscore_f1_std": 0.0135,
+    "note": "Evaluated without reference in LLM prompt (no data leakage)"
+  },
+  "dentex_evaluation": {
+    "mAP50": 0.4992,
+    "mAP50_95": 0.3213,
+    "precision": 0.5832,
+    "recall": 0.55
+  },
+  "model_comparison": {
+    "grounding_dino_zero_shot": {
+      "mAP50": 0.0,
+      "per_class_ap": {
+        "Caries": 0.0,
+        "Periapical lesion": 0.0,
+        "Impacted tooth": 0.0
+      }
+    },
+    "yolo11_finetuned": {
+      "mAP50": 0.5123,
+      "per_class_ap": {
+        "Caries": 0.4416,
+        "Periapical lesion": 0.2286,
+        "Impacted tooth": 0.8666
+      }
+    }
+  }
+}

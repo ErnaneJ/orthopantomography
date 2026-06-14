@@ -1,0 +1,23 @@
+{
+  "test_set": "DentexChallenge 2023 test split",
+  "iou_threshold": 0.5,
+  "conf_threshold": 0.25,
+  "models": {
+    "grounding_dino_zero_shot": {
+      "mAP50": 0.0,
+      "per_class_ap": {
+        "Caries": 0.0,
+        "Periapical lesion": 0.0,
+        "Impacted tooth": 0.0
+      }
+    },
+    "yolo11_finetuned": {
+      "mAP50": 0.5123,
+      "per_class_ap": {
+        "Caries": 0.4416,
+        "Periapical lesion": 0.2286,
+        "Impacted tooth": 0.8666
+      }
+    }
+  }
+}
