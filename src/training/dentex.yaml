@@ -1,0 +1,8 @@
+# DentexChallenge 2023 — 3 disease classes
+path: /Users/ernane/me/orthopantomography/data/dentex_yolo
+train: train/images
+val:   val/images
+test:  test/images
+
+nc: 3
+names: ['Caries', 'Periapical lesion', 'Impacted tooth']
