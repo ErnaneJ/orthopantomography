@@ -2,8 +2,10 @@
 .claude/
 CLAUDE.local.md
 
-# ── Draft documents (not for version control) ────────────────────────────────
+# ── Paper / LaTeX (kept locally and on Overleaf, not in repo) ────────────────
+paper_cbeb2026.tex
 paper_cbeb2026.md
+references.bib
 rascunho_cbeb2026.md
 data/Experiments/research_proposals.md
 
