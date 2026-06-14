@@ -1,7 +1,7 @@
 # Automated Dental Pathology Detection in Panoramic Radiographs
 
 > **Paper submitted to [CBEB 2026](https://sbeb.org.br/cbeb2026/) — Brazilian Congress on Biomedical Engineering**
-> *Transfer Learning for Dental Pathology Detection in Panoramic Radiographs: YOLOv11 vs. Zero-Shot Foundation Models*
+> *Transfer Learning for Dental Pathology Detection in Panoramic Radiographs: YOLOv11 vs. Zero-Shot Grounding DINO*
 > Ernane Ferreira Rocha Junior, Ignacio Sanchez-Gendriz, Luiz Affonso Guedes — UFRN / CETENE
 
 Research code accompanying the above paper. A three-stage pipeline applied to orthopantomographs (OPGs):
@@ -226,7 +226,7 @@ This repository accompanies a paper submitted to CBEB 2026. If you use this code
 @inproceedings{rocha2026opg,
   author    = {Rocha Junior, Ernane Ferreira and S{\'a}nchez-Gendriz, Ignacio and Guedes, Luiz Affonso},
   title     = {Transfer Learning for Dental Pathology Detection in Panoramic Radiographs:
-               {YOLOv11} vs. Zero-Shot Foundation Models},
+               {YOLOv11} vs. Zero-Shot {Grounding DINO}},
   booktitle = {Proceedings of the Brazilian Congress on Biomedical Engineering (CBEB)},
   year      = {2026}
 }
