@@ -335,69 +335,41 @@ def fig_spontaneous_recall():
 
 # ── Fig 6 — NLP metrics ───────────────────────────────────────────────────────
 def fig_nlp_metrics():
-    s3_dir = ROOT / "results/stage3_reports"
-    if not s3_dir.exists():
-        print("  fig6 skipped — no stage3 reports")
+    # Read all three metrics from all_metrics.json (single source of truth,
+    # same values reported in Table III of the paper).
+    metrics_f = ROOT / "results/metrics/all_metrics.json"
+    if not metrics_f.exists():
+        print("  fig6 skipped — all_metrics.json not found")
         return
 
-    from rouge_score import rouge_scorer as rs_lib
-    import nltk
-    from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
-    nltk.download("punkt", quiet=True)
-    nltk.download("punkt_tab", quiet=True)
+    m      = json.loads(metrics_f.read_text()).get("stage3", {})
+    bleu_mean  = m.get("bleu4_mean");       bleu_std  = m.get("bleu4_std")
+    rouge_mean = m.get("rouge_l_mean");     rouge_std = m.get("rouge_l_std")
+    bert_mean  = m.get("bertscore_f1_mean"); bert_std = m.get("bertscore_f1_std")
 
-    bleu4, rouge_l_scores = [], []
-    for f in sorted(s3_dir.glob("report_*.json")):
-        data = json.loads(f.read_text())
-        ref  = data.get("reference_description", "")
-        hyp  = data.get("report", "")
-        if not ref or not hyp or hyp.startswith("ERROR"):
-            continue
-        ref_t = nltk.word_tokenize(ref.lower())
-        hyp_t = nltk.word_tokenize(hyp.lower())
-        bleu4.append(sentence_bleu([ref_t], hyp_t,
-                     smoothing_function=SmoothingFunction().method1))
-        scorer = rs_lib.RougeScorer(["rougeL"], use_stemmer=True)
-        rouge_l_scores.append(scorer.score(ref, hyp)["rougeL"].fmeasure)
-
-    # BERTScore from saved metrics
-    metrics_f = ROOT / "results/metrics/all_metrics.json"
-    bert_mean = bert_std = None
-    if metrics_f.exists():
-        m = json.loads(metrics_f.read_text())
-        bert_mean = m.get("stage3", {}).get("bertscore_f1_mean")
-        bert_std  = m.get("stage3", {}).get("bertscore_f1_std")
+    if None in (bleu_mean, rouge_mean, bert_mean):
+        print("  fig6 skipped — incomplete stage3 metrics in all_metrics.json")
+        return
 
     fig, axes = plt.subplots(1, 3, figsize=(11, 4.5))
 
-    def _violin_or_hist(ax, scores, label, color, mean_val=None, std_val=None):
-        if scores:
-            parts = ax.violinplot([scores], positions=[0], widths=0.7,
-                                  showmeans=True, showmedians=True)
-            for pc in parts["bodies"]:
-                pc.set_facecolor(color); pc.set_alpha(0.55)
-            parts["cmeans"].set_color(RED)
-            parts["cmedians"].set_color(GRAY)
-            m = np.mean(scores)
-            s = np.std(scores)
-            ax.text(0, m + s + 0.005, f"μ={m:.4f}\nσ={s:.4f}",
-                    ha="center", fontsize=8, color=RED)
-        elif mean_val is not None:
-            ax.bar([0], [mean_val], width=0.5, color=color, alpha=0.8,
-                   edgecolor="white", yerr=[[0], [std_val or 0]], capsize=5)
-            ax.text(0, mean_val + (std_val or 0) + 0.008,
-                    f"μ={mean_val:.4f}\nσ={std_val:.4f}",
-                    ha="center", fontsize=8, color=RED)
+    def _bar(ax, mean_val, std_val, label, color):
+        ax.bar([0], [mean_val], width=0.5, color=color, alpha=0.8,
+               edgecolor="white", yerr=[[0], [std_val or 0]], capsize=5)
+        top = mean_val + (std_val or 0)
+        offset = top * 0.25 if top > 0 else 0.001
+        ax.text(0, top + offset,
+                f"μ={mean_val:.4f}\nσ={std_val:.4f}",
+                ha="center", fontsize=8, color=RED)
+        ax.set_ylim(0, (top + offset) * 1.35)
         ax.set_xticks([])
         ax.set_ylabel("Score")
         ax.set_title(label)
         ax.grid(axis="y", alpha=0.3, linewidth=0.6)
 
-    _violin_or_hist(axes[0], bleu4,          "BLEU-4",       BLUE)
-    _violin_or_hist(axes[1], rouge_l_scores, "ROUGE-L",      PURPLE)
-    _violin_or_hist(axes[2], [],             "BERTScore F1", GREEN,
-                   bert_mean, bert_std)
-    axes[2].set_ylim(0, 1.0)
+    _bar(axes[0], bleu_mean,  bleu_std,  "BLEU-4",       BLUE)
+    _bar(axes[1], rouge_mean, rouge_std, "ROUGE-L",      PURPLE)
+    _bar(axes[2], bert_mean,  bert_std,  "BERTScore F1", GREEN)
 
     fig.suptitle(
         "Fig. 6. NLP evaluation of 50 generated pre-clinical reports vs. dentist-written references\n"
