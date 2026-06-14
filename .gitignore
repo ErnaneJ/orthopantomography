@@ -1,0 +1,62 @@
+# ── Claude Code ─────────────────────────────────────────────────────────────
+.claude/
+CLAUDE.local.md
+
+# ── Draft documents (not for version control) ────────────────────────────────
+paper_cbeb2026.md
+rascunho_cbeb2026.md
+data/Experiments/research_proposals.md
+
+# ── macOS ────────────────────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ── Python ───────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.ipynb_checkpoints/
+*.egg-info/
+dist/
+build/
+.venv/
+env/
+.env
+.ruff_cache/
+
+# ── ML model weights & training runs ─────────────────────────────────────────
+*.pt
+*.pth
+*.onnx
+runs/
+results/training/
+
+# ── Generated per-image overlays (large, reproducible) ───────────────────────
+results/figures/stage1/
+results/figures/stage2/
+
+# ── Generated LLM reports (clinical content from private dataset) ─────────────
+results/stage3_reports/
+results/stage2_validations/
+
+# ── Datasets (large / private) ───────────────────────────────────────────────
+data/dentex_raw/
+data/dentex_yolo/
+data/Images/
+data/Descriptions/
+data/Audio/
+
+# ── Pipeline runtime artifacts ────────────────────────────────────────────────
+run_all.log
+run_all.pid
+
+# ── Web app — runtime files ───────────────────────────────────────────────────
+web/backend/.env
+web/backend/opg.db
+web/backend/opg.db-shm
+web/backend/opg.db-wal
+web/backend/storage/uploads/
+web/backend/storage/annotated/
+web/frontend/node_modules/
+web/frontend/dist/
