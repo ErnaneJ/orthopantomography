@@ -1,8 +1,10 @@
 # Automated Dental Pathology Detection in Panoramic Radiographs
 
-Research code for the paper *Transfer Learning for Dental Pathology Detection in Panoramic Radiographs: YOLOv11 vs. Zero-Shot Foundation Models* (CBEB 2026).
+> **Paper submitted to [CBEB 2026](https://sbeb.org.br/cbeb2026/) — Brazilian Congress on Biomedical Engineering**
+> *Transfer Learning for Dental Pathology Detection in Panoramic Radiographs: YOLOv11 vs. Zero-Shot Foundation Models*
+> Ernane Ferreira Rocha Junior, Ignacio Sanchez-Gendriz, Luiz Affonso Guedes — UFRN / CETENE
 
-A three-stage pipeline applied to orthopantomographs (OPGs):
+Research code accompanying the above paper. A three-stage pipeline applied to orthopantomographs (OPGs):
 
 1. **Stage 1 — Detection** YOLOv11m fine-tuned on DentexChallenge 2023 detects Caries, Periapical lesion, and Impacted tooth.
 2. **Stage 2 — Spontaneous Recall** Compares detected classes against dentist-written descriptions without prompt injection.
@@ -213,6 +215,22 @@ YOLOv11m: mAP@50:95 = 0.321, Precision = 0.583, Recall = 0.550.
 Private OPG pipeline (n = 50 images):
 - Stage 2 spontaneous recall: mean 88.3% (SD 30.8%, n = 30 evaluable images)
 - Stage 3 BERTScore F1: 0.780 (RoBERTa-large, n = 50 reports)
+
+---
+
+## Citation
+
+This repository accompanies a paper submitted to CBEB 2026. If you use this code, please cite:
+
+```bibtex
+@inproceedings{rocha2026opg,
+  author    = {Rocha Junior, Ernane Ferreira and S{\'a}nchez-Gendriz, Ignacio and Guedes, Luiz Affonso},
+  title     = {Transfer Learning for Dental Pathology Detection in Panoramic Radiographs:
+               {YOLOv11} vs. Zero-Shot Foundation Models},
+  booktitle = {Proceedings of the Brazilian Congress on Biomedical Engineering (CBEB)},
+  year      = {2026}
+}
+```
 
 ---
 
