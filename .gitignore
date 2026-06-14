@@ -60,3 +60,4 @@ web/backend/storage/uploads/
 web/backend/storage/annotated/
 web/frontend/node_modules/
 web/frontend/dist/
+web/frontend/README.md
