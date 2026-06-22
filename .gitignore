@@ -38,9 +38,10 @@ results/training/
 results/figures/stage1/
 results/figures/stage2/
 
-# ── Generated LLM reports (clinical content from private dataset) ─────────────
+# ── Outputs derived from private OPG dataset ─────────────────────────────────
 results/stage3_reports/
 results/stage2_validations/
+results/stage1_detections/
 
 # ── Datasets (large / private) ───────────────────────────────────────────────
 data/dentex_raw/
