@@ -42,6 +42,7 @@ results/figures/stage2/
 results/stage3_reports/
 results/stage2_validations/
 results/stage1_detections/
+results/evaluation/llm_input_ablation/
 
 # ── Datasets (large / private) ───────────────────────────────────────────────
 data/dentex_raw/

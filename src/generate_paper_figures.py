@@ -18,6 +18,9 @@ FIGS = ROOT / "results" / "figures"
 FIGS.mkdir(parents=True, exist_ok=True)
 
 # ── Common style ──────────────────────────────────────────────────────────────
+matplotlib.rcParams["pdf.fonttype"] = 42
+matplotlib.rcParams["ps.fonttype"] = 42
+
 plt.rcParams.update({
     "font.family":      "DejaVu Sans",
     "font.size":        10,
@@ -54,13 +57,13 @@ def fig_pipeline():
          "YOLOv11m pretrained\nAdamW  lr=10⁻³\nbatch=8  img=640 px\n100 epochs  MPS (M5)\nAugment: CLAHE, flip,\nbrightness, affine",
          "#E8F5E9", "#2E7D32"),
         ("Stage 1\nDetection",
-         "YOLOv11 fine-tuned\non 50 OPGs\nmAP@50 = 0.499\n(DentexChallenge test)\n466 det. / 50 images\nConf ≥ 0.25",
+         "YOLOv11 fine-tuned\non 50 OPGs\nmAP@50 = 0.557\n(DentexChallenge test)\n466 det. / 50 images\nConf ≥ 0.25",
          "#FFF8E1", "#E65100"),
         ("Stage 2\nSpontaneous Recall",
          "Dentist descriptions\n→ class mention check\nSR = detected ∩ mentioned\n/ mentioned\nMean SR = 88.3%\n30 evaluable images",
          "#F3E5F5", "#6A1B9A"),
         ("Stage 3\nLLM Report",
-         "Gemini 2.5 Flash\nvia OpenRouter API\nImage + detections\n5-section structured report\nBERTScore F1 = 0.780\n50 reports",
+         "Gemini 2.5 Flash\nvia OpenRouter API\nImage + detections\n5-section structured report\nBERTScore F1 = 0.779\n50 reports",
          "#FCE4EC", "#C62828"),
     ]
 
@@ -84,7 +87,7 @@ def fig_pipeline():
                 ha="center", va="top", fontsize=10, fontweight="bold",
                 color=edge, transform=ax.transData, zorder=3)
         ax.text(x + block_w / 2, y + block_h * 0.52, body,
-                ha="center", va="center", fontsize=7.5, color=GRAY,
+                ha="center", va="center", fontsize=8, color=GRAY,
                 transform=ax.transData, zorder=3, linespacing=1.35)
 
         # Arrow to next block
@@ -110,14 +113,9 @@ def fig_pipeline():
 
     ax.set_xlim(0, 13)
     ax.set_ylim(0, 4.5)
-    fig.suptitle(
-        "Fig. 1. Three-stage pipeline for panoramic dental radiograph analysis.",
-        fontsize=10, y=0.02, color=GRAY,
-    )
-    plt.tight_layout(rect=[0, 0.05, 1, 1])
-    out = FIGS / "fig1_pipeline_architecture.pdf"
+    plt.tight_layout()
+    out = FIGS / "fig1_pipeline_architecture.png"
     fig.savefig(out, bbox_inches="tight")
-    fig.savefig(str(out).replace(".pdf", ".png"), bbox_inches="tight")
     plt.close(fig)
     print(f"  fig1_pipeline_architecture.png")
 
@@ -175,9 +173,7 @@ def fig_training_curves():
         ax.legend(loc="lower right")
         ax.grid(axis="y", alpha=0.3, linewidth=0.6)
 
-    fig.suptitle("Fig. 2. Validation mAP curves during fine-tuning on DentexChallenge 2023.",
-                 fontsize=10, y=0.02, color=GRAY)
-    plt.tight_layout(rect=[0, 0.06, 1, 1])
+    plt.tight_layout()
     fig.savefig(FIGS / "fig2_training_curves.png", bbox_inches="tight")
     plt.close(fig)
     print("  fig2_training_curves.png")
@@ -190,9 +186,12 @@ def fig_model_comparison():
             "Caries": 0.0, "Periapical\nlesion": 0.0, "Impacted\ntooth": 0.0,
             "Mean mAP@50": 0.0,
         },
+        # Fixed conf >= 0.25 decision threshold (custom 11-point AP), matching
+        # the direct GDINO comparison methodology; distinct from the
+        # confidence-sweep values reported in Table I.
         "YOLOv11m\n(fine-tuned)": {
-            "Caries": 0.3034, "Periapical\nlesion": 0.0950, "Impacted\ntooth": 0.5657,
-            "Mean mAP@50": 0.4992,
+            "Caries": 0.4416, "Periapical\nlesion": 0.2286, "Impacted\ntooth": 0.8666,
+            "Mean mAP@50": 0.5123,
         },
     }
 
@@ -217,15 +216,13 @@ def fig_model_comparison():
     ax.set_xticks(x)
     ax.set_xticklabels(classes)
     ax.set_ylabel("Average Precision @ IoU 0.5")
-    ax.set_title("Zero-shot vs fine-tuned detection on DentexChallenge 2023 test set")
-    ax.set_ylim(0, 0.75)
+    ax.set_title("Zero-shot vs fine-tuned detection (conf $\\geq$ 0.25, custom 11-pt AP)")
+    ax.set_ylim(0, 1.0)
     ax.legend(frameon=False)
     ax.axvline(2.5, color="gray", lw=0.8, linestyle=":", alpha=0.5)
     ax.grid(axis="y", alpha=0.3, linewidth=0.6)
 
-    fig.suptitle("Fig. 3. Per-class and mean mAP@50 comparison (test split, IoU=0.5, conf=0.25).",
-                 fontsize=10, y=0.02, color=GRAY)
-    plt.tight_layout(rect=[0, 0.06, 1, 1])
+    plt.tight_layout()
     fig.savefig(FIGS / "fig3_model_comparison.png", bbox_inches="tight")
     plt.close(fig)
     print("  fig3_model_comparison.png")
@@ -261,10 +258,7 @@ def fig_detection_frequency():
         ax.text(v + 1, i, str(v), va="center", fontsize=8.5, color=GRAY)
     ax.grid(axis="x", alpha=0.3, linewidth=0.6)
 
-    fig.suptitle(
-        "Fig. 4. Frequency of detections by class on the private 50-image OPG dataset (Stage 1).",
-        fontsize=10, y=0.02, color=GRAY)
-    plt.tight_layout(rect=[0, 0.06, 1, 1])
+    plt.tight_layout()
     fig.savefig(FIGS / "fig4_detection_frequency.png", bbox_inches="tight")
     plt.close(fig)
     print("  fig4_detection_frequency.png")
@@ -324,10 +318,7 @@ def fig_spontaneous_recall():
         ax2.text(v + 0.15, i, str(v), va="center", fontsize=9)
     ax2.grid(axis="x", alpha=0.3, linewidth=0.6)
 
-    fig.suptitle(
-        "Fig. 5. Spontaneous recall rate distribution across 50 OPGs (Stage 2, n=30 testable images).",
-        fontsize=10, y=0.01, color=GRAY)
-    plt.tight_layout(rect=[0, 0.05, 1, 1])
+    plt.tight_layout()
     fig.savefig(FIGS / "fig5_spontaneous_recall.png", bbox_inches="tight")
     plt.close(fig)
     print("  fig5_spontaneous_recall.png")
@@ -346,22 +337,29 @@ def fig_nlp_metrics():
     bleu_mean  = m.get("bleu4_mean");       bleu_std  = m.get("bleu4_std")
     rouge_mean = m.get("rouge_l_mean");     rouge_std = m.get("rouge_l_std")
     bert_mean  = m.get("bertscore_f1_mean"); bert_std = m.get("bertscore_f1_std")
+    bert_resc_mean = m.get("bertscore_f1_rescaled_mean")
+    bert_resc_std  = m.get("bertscore_f1_rescaled_std")
 
     if None in (bleu_mean, rouge_mean, bert_mean):
         print("  fig6 skipped — incomplete stage3 metrics in all_metrics.json")
         return
 
-    fig, axes = plt.subplots(1, 3, figsize=(11, 4.5))
+    has_rescaled = bert_resc_mean is not None
+    fig, axes = plt.subplots(1, 4 if has_rescaled else 3, figsize=(14 if has_rescaled else 11, 4.5))
 
     def _bar(ax, mean_val, std_val, label, color):
+        std_val = std_val or 0
+        lo, hi = min(0, mean_val - std_val), max(0, mean_val + std_val)
         ax.bar([0], [mean_val], width=0.5, color=color, alpha=0.8,
-               edgecolor="white", yerr=[[0], [std_val or 0]], capsize=5)
-        top = mean_val + (std_val or 0)
-        offset = top * 0.25 if top > 0 else 0.001
-        ax.text(0, top + offset,
-                f"μ={mean_val:.4f}\nσ={std_val:.4f}",
-                ha="center", fontsize=8, color=RED)
-        ax.set_ylim(0, (top + offset) * 1.35)
+               edgecolor="white", yerr=[[std_val], [std_val]], capsize=5)
+        span = hi - lo
+        pad = span * 0.25 if span > 0 else 0.001
+        text_y = mean_val + std_val + pad if mean_val >= 0 else mean_val - std_val - pad
+        va = "bottom" if mean_val >= 0 else "top"
+        ax.text(0, text_y, f"μ={mean_val:.4f}\nσ={std_val:.4f}",
+                ha="center", va=va, fontsize=8, color=RED)
+        ax.axhline(0, color=GRAY, lw=0.6)
+        ax.set_ylim(lo - pad * 1.6, hi + pad * 1.6)
         ax.set_xticks([])
         ax.set_ylabel("Score")
         ax.set_title(label)
@@ -369,13 +367,11 @@ def fig_nlp_metrics():
 
     _bar(axes[0], bleu_mean,  bleu_std,  "BLEU-4",       BLUE)
     _bar(axes[1], rouge_mean, rouge_std, "ROUGE-L",      PURPLE)
-    _bar(axes[2], bert_mean,  bert_std,  "BERTScore F1", GREEN)
+    _bar(axes[2], bert_mean,  bert_std,  "BERTScore F1\n(raw)", GREEN)
+    if has_rescaled:
+        _bar(axes[3], bert_resc_mean, bert_resc_std, "BERTScore F1\n(rescaled)", ORANGE)
 
-    fig.suptitle(
-        "Fig. 6. NLP evaluation of 50 generated pre-clinical reports vs. dentist-written references\n"
-        "(Stage 3, Gemini 2.5 Flash, no reference text in LLM prompt).",
-        fontsize=10, y=0.01, color=GRAY)
-    plt.tight_layout(rect=[0, 0.08, 1, 1])
+    plt.tight_layout()
     fig.savefig(FIGS / "fig6_nlp_metrics.png", bbox_inches="tight")
     plt.close(fig)
     print("  fig6_nlp_metrics.png")

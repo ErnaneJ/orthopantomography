@@ -1,0 +1,26 @@
+{
+  "image_only": {
+    "n": 50,
+    "bleu4_mean": 0.001,
+    "rouge_l_mean": 0.0304,
+    "bertscore_f1_mean": 0.7761,
+    "bertscore_f1_std": 0.0128,
+    "bertscore_f1_rescaled_mean": -0.3269
+  },
+  "detections_only": {
+    "n": 50,
+    "bleu4_mean": 0.0015,
+    "rouge_l_mean": 0.0335,
+    "bertscore_f1_mean": 0.7956,
+    "bertscore_f1_std": 0.0131,
+    "bertscore_f1_rescaled_mean": -0.2113
+  },
+  "both": {
+    "n": 50,
+    "bleu4_mean": 0.001,
+    "rouge_l_mean": 0.0315,
+    "bertscore_f1_mean": 0.7792,
+    "bertscore_f1_std": 0.0131,
+    "bertscore_f1_rescaled_mean": -0.3085
+  }
+}

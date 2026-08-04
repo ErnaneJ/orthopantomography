@@ -16,24 +16,26 @@
   },
   "stage2": {
     "metric": "Spontaneous Recall Rate (unbiased)",
-    "images_with_findings": 27,
-    "avg_spontaneous_recall": 0.9815,
-    "std_spontaneous_recall": 0.0944,
-    "high_recall_pct": 96.3
+    "images_with_findings": 34,
+    "avg_spontaneous_recall": 0.8971,
+    "std_spontaneous_recall": 0.2915,
+    "high_recall_pct": 88.2
   },
   "stage3": {
     "reports_evaluated": 50,
-    "bleu4_mean": 0.0011,
-    "bleu4_std": 0.0012,
-    "rouge_l_mean": 0.0319,
-    "rouge_l_std": 0.0174,
-    "bertscore_f1_mean": 0.7803,
-    "bertscore_f1_std": 0.0135,
+    "bleu4_mean": 0.001,
+    "bleu4_std": 0.0008,
+    "rouge_l_mean": 0.0315,
+    "rouge_l_std": 0.0177,
+    "bertscore_f1_mean": 0.7792,
+    "bertscore_f1_std": 0.0129,
+    "bertscore_f1_rescaled_mean": -0.3085,
+    "bertscore_f1_rescaled_std": 0.0767,
     "note": "Evaluated without reference in LLM prompt (no data leakage)"
   },
   "dentex_evaluation": {
-    "mAP50": 0.4992,
-    "mAP50_95": 0.3213,
+    "mAP50": 0.5573,
+    "mAP50_95": 0.3606,
     "precision": 0.5832,
     "recall": 0.55
   },

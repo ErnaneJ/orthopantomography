@@ -1,0 +1,18 @@
+{
+  "bert_score_hash": "roberta-large_L17_no-idf_version=0.3.12(hug_trans=5.10.2)",
+  "n": 50,
+  "matched": {
+    "raw_mean": 0.7792,
+    "raw_std": 0.0131,
+    "rescaled_mean": -0.3085,
+    "rescaled_std": 0.0775
+  },
+  "shuffled_control": {
+    "raw_mean": 0.7777,
+    "raw_std": 0.0141,
+    "rescaled_mean": -0.3169,
+    "rescaled_std": 0.0838
+  },
+  "seed": 42,
+  "note": "shuffled_control pairs each hypothesis with a mismatched reference via a fixed derangement (no fixed point) of the 50-item index list."
+}

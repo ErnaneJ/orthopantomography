@@ -33,7 +33,7 @@ def main():
     metrics = model.val(
         data=str(YAML),
         split="test",
-        conf=0.25,
+        conf=0.001,
         iou=0.5,
         verbose=True,
     )
@@ -57,7 +57,8 @@ def main():
     try:
         for i, name in class_names.items():
             results["per_class"][name] = {
-                "mAP50":     round(float(metrics.box.maps[i]), 4),
+                "mAP50":     round(float(metrics.box.ap50[i]), 4),
+                "mAP50_95":  round(float(metrics.box.maps[i]), 4),
                 "precision": round(float(metrics.box.p[i]),    4) if hasattr(metrics.box, 'p') else None,
                 "recall":    round(float(metrics.box.r[i]),    4) if hasattr(metrics.box, 'r') else None,
             }

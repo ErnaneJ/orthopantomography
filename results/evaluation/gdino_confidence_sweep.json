@@ -1,0 +1,106 @@
+{
+  "conf_0.05": {
+    "iou_0.1": {
+      "mAP": 0.0414,
+      "per_class_ap": {
+        "Caries": 0.0742,
+        "Periapical lesion": 0.0497,
+        "Impacted tooth": 0.0004
+      }
+    },
+    "iou_0.25": {
+      "mAP": 0.0105,
+      "per_class_ap": {
+        "Caries": 0.0316,
+        "Periapical lesion": 0.0,
+        "Impacted tooth": 0.0
+      }
+    },
+    "iou_0.5": {
+      "mAP": 0.007,
+      "per_class_ap": {
+        "Caries": 0.021,
+        "Periapical lesion": 0.0,
+        "Impacted tooth": 0.0
+      }
+    }
+  },
+  "conf_0.1": {
+    "iou_0.1": {
+      "mAP": 0.0325,
+      "per_class_ap": {
+        "Caries": 0.0474,
+        "Periapical lesion": 0.0497,
+        "Impacted tooth": 0.0004
+      }
+    },
+    "iou_0.25": {
+      "mAP": 0.0037,
+      "per_class_ap": {
+        "Caries": 0.011,
+        "Periapical lesion": 0.0,
+        "Impacted tooth": 0.0
+      }
+    },
+    "iou_0.5": {
+      "mAP": 0.0018,
+      "per_class_ap": {
+        "Caries": 0.0054,
+        "Periapical lesion": 0.0,
+        "Impacted tooth": 0.0
+      }
+    }
+  },
+  "conf_0.15": {
+    "iou_0.1": {
+      "mAP": 0.0234,
+      "per_class_ap": {
+        "Caries": 0.02,
+        "Periapical lesion": 0.0497,
+        "Impacted tooth": 0.0004
+      }
+    },
+    "iou_0.25": {
+      "mAP": 0.0009,
+      "per_class_ap": {
+        "Caries": 0.0028,
+        "Periapical lesion": 0.0,
+        "Impacted tooth": 0.0
+      }
+    },
+    "iou_0.5": {
+      "mAP": 0.0007,
+      "per_class_ap": {
+        "Caries": 0.0022,
+        "Periapical lesion": 0.0,
+        "Impacted tooth": 0.0
+      }
+    }
+  },
+  "conf_0.25": {
+    "iou_0.1": {
+      "mAP": 0.0151,
+      "per_class_ap": {
+        "Caries": 0.0,
+        "Periapical lesion": 0.0454,
+        "Impacted tooth": 0.0
+      }
+    },
+    "iou_0.25": {
+      "mAP": 0.0,
+      "per_class_ap": {
+        "Caries": 0.0,
+        "Periapical lesion": 0.0,
+        "Impacted tooth": 0.0
+      }
+    },
+    "iou_0.5": {
+      "mAP": 0.0,
+      "per_class_ap": {
+        "Caries": 0.0,
+        "Periapical lesion": 0.0,
+        "Impacted tooth": 0.0
+      }
+    }
+  }
+}

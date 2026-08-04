@@ -61,8 +61,12 @@ def run():
     coverage_scores = []   # now = spontaneous_recall scores
     for f in sorted(s2_dir.glob("validation_*.json")):
         data = json.loads(f.read_text())
-        # Support both old (coverage_score) and new (spontaneous_recall) field names
-        score = data.get("spontaneous_recall") or data.get("coverage_score")
+        # Support both old (coverage_score) and new (spontaneous_recall) field names.
+        # Must check "is not None" explicitly: a true SR=0.0 score is falsy in Python
+        # and would otherwise be silently dropped by an `or` fallback.
+        score = data.get("spontaneous_recall")
+        if score is None:
+            score = data.get("coverage_score")
         if score is not None:
             coverage_scores.append(score)
 
@@ -80,6 +84,7 @@ def run():
 
     # ── BERTScore (optional — loads model, ~2min first run) ─────────────────
     bert_f1_scores = []
+    bert_f1_rescaled_scores = []
     try:
         from bert_score import score as bert_score
         refs, hyps = [], []
@@ -92,6 +97,8 @@ def run():
             print("Computando BERTScore (pode levar 1-2 min)...")
             _, _, F1 = bert_score(hyps, refs, lang="en", verbose=False)
             bert_f1_scores = F1.tolist()
+            _, _, F1_rescaled = bert_score(hyps, refs, lang="en", rescale_with_baseline=True, verbose=False)
+            bert_f1_rescaled_scores = F1_rescaled.tolist()
     except Exception as e:
         print(f"BERTScore pulado: {e}")
 
@@ -134,6 +141,8 @@ def run():
             "rouge_l_std": round(np.std(rouge_scores), 4) if rouge_scores else 0,
             "bertscore_f1_mean": round(np.mean(bert_f1_scores), 4) if bert_f1_scores else None,
             "bertscore_f1_std": round(np.std(bert_f1_scores), 4) if bert_f1_scores else None,
+            "bertscore_f1_rescaled_mean": round(np.mean(bert_f1_rescaled_scores), 4) if bert_f1_rescaled_scores else None,
+            "bertscore_f1_rescaled_std": round(np.std(bert_f1_rescaled_scores), 4) if bert_f1_rescaled_scores else None,
             "note": "Evaluated without reference in LLM prompt (no data leakage)",
         },
         "dentex_evaluation": dentex_metrics.get("aggregate", {}),

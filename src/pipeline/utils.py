@@ -29,7 +29,9 @@ def match_findings_to_classes(findings: list[str]) -> list[str]:
     lower_findings = " ".join(findings).lower()
     aliases = {
         "caries": "Caries", "carious": "Caries",
+        "carie": "Caries", "careis": "Caries",
         "impacted": "Impacted tooth", "impaction": "Impacted tooth",
+        "imapcted": "Impacted tooth",
         "bone loss": "Bone Loss",
         "periapical": "Periapical lesion",
         "root canal": "Root Canal Treatment",

@@ -1,0 +1,19 @@
+{
+  "yolo_map50_bootstrap": {
+    "point_estimate": 0.5547,
+    "ci_95_lower": 0.501,
+    "ci_95_upper": 0.6445,
+    "n_bootstrap": 2000,
+    "n_images": 103,
+    "method": "per-image resampling with replacement; mAP@50 recomputed each resample (11-point AP interpolation, custom implementation, matches compare_baselines.py)"
+  },
+  "stage2_sr_wilson_ci": {
+    "n_evaluable": 34,
+    "n_high_recall (>=0.8)": 30,
+    "pct_high_recall": 88.2,
+    "wilson_95_ci_pct": [
+      73.4,
+      95.3
+    ]
+  }
+}
