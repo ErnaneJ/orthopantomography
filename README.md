@@ -2,7 +2,7 @@
 
 > **Paper submitted to [CBEB 2026](https://sbeb.org.br/cbeb2026/), the Brazilian Congress on Biomedical Engineering**
 > *Transfer Learning for Dental Pathology Detection in Panoramic Radiographs: YOLOv11 vs. Zero-Shot Grounding DINO*
-> Ernane Ferreira Rocha Junior, Ignacio Sanchez-Gendriz, Luiz Affonso Guedes (UFRN / CETENE); Yoandris González Sánchez (Fundación Odontológica Social Luis Seiquer, Seville, Spain)
+> Ernane Ferreira Rocha Junior (UFRN), Ignacio Sanchez-Gendriz (CETENE), Yoandris González Sánchez (Fundación Odontológica Social Luis Seiquer, Seville, Spain), Luiz Affonso Guedes (UFRN)
 >
 > **[Read the full paper (PDF)](paper.pdf)**
 
@@ -181,7 +181,7 @@ This repository accompanies a paper submitted to CBEB 2026. If you use this code
 
 ```bibtex
 @inproceedings{rocha2026opg,
-  author    = {Rocha Junior, Ernane Ferreira and S{\'a}nchez-Gendriz, Ignacio and Guedes, Luiz Affonso and Gonz{\'a}lez S{\'a}nchez, Yoandris},
+  author    = {Rocha Junior, Ernane Ferreira and S{\'a}nchez-Gendriz, Ignacio and Gonz{\'a}lez S{\'a}nchez, Yoandris and Guedes, Luiz Affonso},
   title     = {Transfer Learning for Dental Pathology Detection in Panoramic Radiographs:
                {YOLOv11} vs. Zero-Shot {Grounding DINO}},
   booktitle = {Proceedings of the Brazilian Congress on Biomedical Engineering (CBEB)},
