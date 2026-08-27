@@ -197,3 +197,9 @@ This repository accompanies a paper submitted to CBEB 2026. If you use this code
 - The DentexChallenge 2023 dataset is CC0 licensed. See [dentex.grand-challenge.org](https://dentex.grand-challenge.org/).
 - Training defaults to the Apple MPS backend. On Linux with CUDA, Ultralytics selects the GPU automatically.
 - The `models/` directory is git-ignored. You must either train the model or obtain `yolo11_dentex.pt` separately before running the web app in YOLO mode.
+
+---
+
+## License
+
+The code in this repository is released under the [MIT License](LICENSE). This does not extend to `paper.pdf` (all rights reserved by the authors) or to the external OPG example images in `paper/assets/`, which retain their original Apache License 2.0 terms from the DPT Image and Caption Dataset.
