@@ -1,16 +1,18 @@
 # Automated Dental Pathology Detection in Panoramic Radiographs
 
-> **Paper submitted to [CBEB 2026](https://sbeb.org.br/cbeb2026/) — Brazilian Congress on Biomedical Engineering**
+> **Paper submitted to [CBEB 2026](https://sbeb.org.br/cbeb2026/), the Brazilian Congress on Biomedical Engineering**
 > *Transfer Learning for Dental Pathology Detection in Panoramic Radiographs: YOLOv11 vs. Zero-Shot Grounding DINO*
-> Ernane Ferreira Rocha Junior, Ignacio Sanchez-Gendriz, Luiz Affonso Guedes — UFRN / CETENE; Yoandris González Sánchez — Fundación Odontológica Social Luis Seiquer, Seville, Spain
+> Ernane Ferreira Rocha Junior, Ignacio Sanchez-Gendriz, Luiz Affonso Guedes (UFRN / CETENE); Yoandris González Sánchez (Fundación Odontológica Social Luis Seiquer, Seville, Spain)
+>
+> **[Read the full paper (PDF)](paper.pdf)**
 
-Research code accompanying the above paper. A three-stage pipeline applied to orthopantomographs (OPGs):
+Research code accompanying the paper above. A three-stage pipeline applied to orthopantomographs (OPGs):
 
-1. **Stage 1 — Detection** YOLOv11m fine-tuned on DentexChallenge 2023 detects Caries, Periapical lesion, and Impacted tooth.
-2. **Stage 2 — Spontaneous Recall** Compares detected classes against dentist-written descriptions without prompt injection.
-3. **Stage 3 — Report Generation** Gemini 2.5 Flash produces structured pre-clinical reports from the detected findings.
+1. **Stage 1: Detection.** YOLOv11m, fine-tuned on DentexChallenge 2023, detects caries, periapical lesions, and impacted teeth.
+2. **Stage 2: Spontaneous recall.** Detected classes are compared against dentist-written descriptions, without prompt injection.
+3. **Stage 3: Report generation.** Gemini 2.5 Flash produces a structured pre-clinical report from the detected findings.
 
-A React + FastAPI web application wraps the full pipeline for interactive use.
+A React and FastAPI web application wraps the full pipeline for interactive use.
 
 ---
 
@@ -24,7 +26,7 @@ A React + FastAPI web application wraps the full pipeline for interactive use.
 
 ---
 
-## Quick start — web application
+## Quick start: web application
 
 The web app requires the trained model at `models/yolo11_dentex.pt`. If the file is absent, the backend falls back to Grounding DINO (zero-shot, significantly slower).
 
@@ -52,7 +54,7 @@ The script kills any existing processes on ports 8000 and 5173 before starting. 
 
 ## Training from scratch
 
-The full pipeline downloads DentexChallenge 2023, trains YOLOv11n (validation run) and YOLOv11m (full model), evaluates on the test split, compares against Grounding DINO, and runs the private OPG pipeline.
+The full pipeline downloads DentexChallenge 2023, trains YOLOv11n (validation run) and YOLOv11m (full model), evaluates on the test split, compares against Grounding DINO, and runs the external OPG pipeline.
 
 ```bash
 export OPENROUTER_API_KEY=sk-or-v1-...
@@ -104,7 +106,7 @@ python3 src/evaluation/evaluate_dentex.py
 # Baseline comparison: YOLOv11 vs Grounding DINO (zero-shot)
 python3 src/evaluation/compare_baselines.py
 
-# Full pipeline on private OPGs (all stages)
+# Full pipeline on the external OPGs (all stages)
 python3 src/run_pipeline.py
 
 # Skip LLM stage (no API key needed)
@@ -115,12 +117,12 @@ python3 src/run_pipeline.py --stages 1 2
 
 # Generate paper figures
 python3 src/generate_paper_figures.py
-# Output: results/figures/fig1_pipeline_architecture.png ... fig6_nlp_metrics.png
+# Output: paper/assets/fig1_pipeline_architecture.png ... fig6_nlp_metrics.png
 ```
 
 ---
 
-## Web application — API reference
+## Web application: API reference
 
 The FastAPI backend exposes a REST API at `http://localhost:8000`.
 
@@ -159,7 +161,7 @@ Interactive docs at `http://localhost:8000/docs` (Swagger UI).
 │   │   ├── stage4_metrics.py       # NLP metric computation
 │   │   ├── config.py
 │   │   └── utils.py
-│   ├── run_pipeline.py             # Run pipeline on private OPGs
+│   ├── run_pipeline.py             # Run pipeline on the external OPGs
 │   └── generate_paper_figures.py   # Generate all paper figures
 │
 ├── web/
@@ -189,15 +191,19 @@ Interactive docs at `http://localhost:8000/docs` (Swagger UI).
 │
 ├── results/
 │   ├── evaluation/                 # dentex_test_metrics.json, model_comparison.json
-│   ├── metrics/                    # all_metrics.json (aggregated pipeline metrics)
-│   └── figures/                    # Paper figures (fig1_ through fig6_)
+│   └── metrics/                    # all_metrics.json (aggregated pipeline metrics)
 │
-├── paper_cbeb2026.tex              # IEEE-format paper (CBEB 2026)
-├── references.bib                  # BibTeX bibliography
+├── paper/
+│   └── assets/                     # Figures used in the paper and in this README
+│                                    # (fig1-fig6, plus det_11, val_17, web_annotated samples)
+│
+├── paper.pdf                       # Full manuscript (PDF), submitted to CBEB 2026
 ├── requirements.txt                # Python dependencies
-├── run_all.sh                      # Full pipeline (download → train → evaluate)
-└── run_resume.sh                   # Resume from dataset preparation (skip download)
+├── run_all.sh                      # Full pipeline: download, train, evaluate
+└── run_resume.sh                   # Resume from dataset preparation, skip download
 ```
+
+The LaTeX source is maintained on Overleaf and is not part of this repository; `paper.pdf` above is the compiled manuscript.
 
 ---
 
@@ -208,13 +214,30 @@ Evaluated on the DentexChallenge 2023 test split (n = 103 images, IoU = 0.5):
 | Model | Caries AP@50 | Periapical AP@50 | Impacted AP@50 | mAP@50 |
 |---|:---:|:---:|:---:|:---:|
 | Grounding DINO (zero-shot) | 0.000 | 0.000 | 0.000 | 0.000 |
-| YOLOv11m (fine-tuned) | 0.303 | 0.095 | 0.566 | 0.499 |
+| YOLOv11m (fine-tuned) | 0.551 | 0.189 | 0.931 | 0.557 |
 
-YOLOv11m: mAP@50:95 = 0.321, Precision = 0.583, Recall = 0.550.
+YOLOv11m: mAP@50:95 = 0.361, Precision = 0.583, Recall = 0.550.
 
-Private OPG pipeline (n = 50 images):
-- Stage 2 spontaneous recall: mean 88.3% (SD 30.8%, n = 30 evaluable images)
-- Stage 3 BERTScore F1: 0.780 (RoBERTa-large, n = 50 reports)
+External OPG pipeline (n = 50 images):
+- Stage 2 spontaneous recall: mean 89.7% (SD 29.2%, n = 34 evaluable images)
+- Stage 3 BERTScore F1: 0.779 (RoBERTa-large, n = 50 reports)
+
+---
+
+## Figures
+
+Additional figures generated by the pipeline but not included in the 8-page paper submission (all content is otherwise covered in the paper's text and tables):
+
+| | |
+|---|---|
+| ![Training curves](paper/assets/fig2_training_curves.png) | ![Detection frequency](paper/assets/fig4_detection_frequency.png) |
+| YOLOv11n/YOLOv11m validation mAP@50 over training epochs | Per-class detection frequency on the 50 external OPGs (Stage 1) |
+| ![Spontaneous recall distribution](paper/assets/fig5_spontaneous_recall.png) | ![NLP metrics](paper/assets/fig6_nlp_metrics.png) |
+| Stage 2 spontaneous recall distribution across the 34 evaluable images | Stage 3 NLP evaluation metrics (BLEU-4, ROUGE-L, BERTScore) |
+| ![Stage 1 detection example](paper/assets/det_11.jpg) | ![Web prototype](paper/assets/web_annotated.png) |
+| Stage 1 detection output on one of the 50 external OPGs (Caries in red, Impacted tooth in green) | Web prototype: annotated radiograph and structured report side by side |
+
+The external OPGs shown above are drawn from the public Apache License 2.0 subset of the DPT Image and Caption Dataset (Dasanayaka et al., 2025); see [Notes](#notes) below for provenance details.
 
 ---
 
@@ -236,7 +259,7 @@ This repository accompanies a paper submitted to CBEB 2026. If you use this code
 
 ## Notes
 
-- The private OPG dataset (50 clinical images, descriptions, and audio) is not included in this repository.
+- The 50 external OPGs (images, dentist descriptions, and audio) are not included in this repository. The images are drawn from the public Apache License 2.0 subset of the DPT Image and Caption Dataset (Dasanayaka et al., 2025); the clinical descriptions and audio were independently produced for this project and shared through the co-authorship collaboration with Fundación Odontológica Social Luis Seiquer.
 - The DentexChallenge 2023 dataset is CC0 licensed. See [dentex.grand-challenge.org](https://dentex.grand-challenge.org/).
 - Training defaults to the Apple MPS backend. On Linux with CUDA, Ultralytics selects the GPU automatically.
 - The `models/` directory is git-ignored. You must either train the model or obtain `yolo11_dentex.pt` separately before running the web app in YOLO mode.

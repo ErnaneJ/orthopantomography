@@ -3,10 +3,12 @@
 CLAUDE.local.md
 
 # ── Paper / LaTeX (kept locally and on Overleaf, not in repo) ────────────────
-paper_cbeb2026.tex
-paper_cbeb2026.md
-references.bib
-rascunho_cbeb2026.md
+paper/paper_cbeb2026.tex
+paper/paper_cbeb2026.md
+paper/references.bib
+paper/rascunho_cbeb2026.md
+paper/REVISION_LOG.md
+paper/STATUS_REVISAO_CBEB2026.md
 data/Experiments/research_proposals.md
 
 # ── macOS ────────────────────────────────────────────────────────────────────
@@ -38,13 +40,14 @@ results/training/
 results/figures/stage1/
 results/figures/stage2/
 
-# ── Outputs derived from private OPG dataset ─────────────────────────────────
+# ── Outputs derived from external OPG dataset ────────────────────────────────
 results/stage3_reports/
 results/stage2_validations/
 results/stage1_detections/
 results/evaluation/llm_input_ablation/
+evaluation/dentist_review/evaluation_sheet.csv
 
-# ── Datasets (large / private) ───────────────────────────────────────────────
+# ── Datasets (large / external, third-party licensed) ────────────────────────
 data/dentex_raw/
 data/dentex_yolo/
 data/Images/
@@ -55,7 +58,7 @@ data/Audio/
 run_all.log
 run_all.pid
 
-# ── Web app — runtime files ───────────────────────────────────────────────────
+# ── Web app - runtime files ───────────────────────────────────────────────────
 web/backend/.env
 web/backend/opg.db
 web/backend/opg.db-shm

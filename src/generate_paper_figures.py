@@ -14,7 +14,7 @@ import matplotlib.gridspec as gridspec
 import numpy as np
 
 ROOT = Path(__file__).parents[1]
-FIGS = ROOT / "results" / "figures"
+FIGS = ROOT / "paper" / "assets"
 FIGS.mkdir(parents=True, exist_ok=True)
 
 # ── Common style ──────────────────────────────────────────────────────────────
@@ -57,10 +57,10 @@ def fig_pipeline():
          "YOLOv11m pretrained\nAdamW  lr=10⁻³\nbatch=8  img=640 px\n100 epochs  MPS (M5)\nAugment: CLAHE, flip,\nbrightness, affine",
          "#E8F5E9", "#2E7D32"),
         ("Stage 1\nDetection",
-         "YOLOv11 fine-tuned\non 50 OPGs\nmAP@50 = 0.557\n(DentexChallenge test)\n466 det. / 50 images\nConf ≥ 0.25",
+         "Fine-tuned YOLOv11m\napplied to 50 OPGs\n466 detections\n(mean 9.3/image)\nConf ≥ 0.25",
          "#FFF8E1", "#E65100"),
         ("Stage 2\nSpontaneous Recall",
-         "Dentist descriptions\n→ class mention check\nSR = detected ∩ mentioned\n/ mentioned\nMean SR = 88.3%\n30 evaluable images",
+         "Dentist descriptions\n→ class mention check\nSR = detected ∩ mentioned\n/ mentioned\nMean SR = 89.7%\n34 evaluable images",
          "#F3E5F5", "#6A1B9A"),
         ("Stage 3\nLLM Report",
          "Gemini 2.5 Flash\nvia OpenRouter API\nImage + detections\n5-section structured report\nBERTScore F1 = 0.779\n50 reports",
