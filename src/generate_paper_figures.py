@@ -108,7 +108,7 @@ def fig_pipeline():
         transform=ax.transData, zorder=4,
     )
     ax.text(eval_x, 0.22, "Evaluation on\nDentexChallenge\ntest set",
-            ha="center", va="center", fontsize=7.5, color=GRAY,
+            ha="center", va="center", fontsize=8, color=GRAY,
             style="italic", transform=ax.transData)
 
     ax.set_xlim(0, 13)
@@ -216,7 +216,6 @@ def fig_model_comparison():
     ax.set_xticks(x)
     ax.set_xticklabels(classes)
     ax.set_ylabel("Average Precision @ IoU 0.5")
-    ax.set_title("Zero-shot vs fine-tuned detection (conf $\\geq$ 0.25, custom 11-pt AP)")
     ax.set_ylim(0, 1.0)
     ax.legend(frameon=False)
     ax.axvline(2.5, color="gray", lw=0.8, linestyle=":", alpha=0.5)
